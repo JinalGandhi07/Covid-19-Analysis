@@ -23,6 +23,19 @@ select *, SumOfVaccinationsOnEachDayIncludingPReviousDay/population * 100 Percen
 ORDER BY location
 
 
+--For India
+with cte as(
+select a.date,a.continent,a.location,b.population, a.new_vaccinations,
+sum(CAST(new_vaccinations as int)) over (partition by a.location  ORDER BY  a.date) as SumOfVaccinationsOnEachDayIncludingPReviousDay
+from CovidVaccination a
+join CovidDeath b
+on a.location= b.location and a.date= b.date
+WHERE a.location ='India' and a.new_vaccinations >0
+)
+select *, SumOfVaccinationsOnEachDayIncludingPReviousDay/population * 100 PercentagePopulationVaccinatedDateLocationWise from cte
+ORDER BY PercentagePopulationVaccinatedDateLocationWise desc
+
+
 --Percentage of population being vaccinated date and location wise
 --using Temporary Tables
 select * into #temp1 from (
