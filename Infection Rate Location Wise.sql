@@ -1,4 +1,4 @@
---Highest Infection Rate
+--Covid Cases Infection Rate
 --1. Highest Covid Cases based on population
 select location,continent, max(total_cases) TotalCases, AVG(population) population, max(total_cases)/avg(population) *100 as MaxCovidPercenatge from CovidDeath
 where continent is not null
@@ -6,6 +6,12 @@ group by location ,continent
 having max(total_cases) >0
 order by MaxCovidPercenatge desc
 --Andorra Europe
+
+--for india
+select location,continent, max(total_cases) TotalCases, AVG(population) population, max(total_cases)/avg(population) *100 as CovidPercenatge from CovidDeath
+where location='India'
+group by location ,continent
+having max(total_cases) >0
 
 
 --2. Lowest Covid Cases based on population
